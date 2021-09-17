@@ -4,7 +4,8 @@ import numpy as np
 import tensorflow as tf
 import tensorflow_hub as hub
 
-root_path = '/Users/holk/Downloads/File/'
+# root_path = 'C:\\Users\\holk\\Documents\\Tencent Files\\1599840925\\FileRecv\\File'
+root_path = 'C:\\Users\\holk\\Documents\\Tencent Files\\1599840925\\FileRecv\\file1'
 image_path = root_path
 joints = ['nose', 'l-eye', 'r-eye', 'left ear', 'right ear', 'left shoulder', 'right shoulder', 'left elbow',
           'right elbow', 'left wrist', 'right wrist', 'left hip', 'right hip', 'left knee', 'right knee',
@@ -12,7 +13,7 @@ joints = ['nose', 'l-eye', 'r-eye', 'left ear', 'right ear', 'left shoulder', 'r
           'right ankle']
 joints_dict = {}
 filename = 'result.json'
-model = hub.load("/Users/holk/Downloads/movenet_singlepose_thunder_4")
+model = hub.load("movenet_singlepose_thunder")
 
 
 def estimate(image_path, threshold=0.3):
@@ -27,11 +28,11 @@ def estimate(image_path, threshold=0.3):
     keypoints = outputs['output_0'].numpy()[0][0]
     base_name = os.path.basename(image_path)
     joints_dict[base_name] = []
-    joints_dict[base_name].append([])
+    # joints_dict[base_name].append([])
     for i, keypoint in enumerate(keypoints):
-        if keypoint[2] > threshold:
-            joints_dict[base_name].append(keypoint.tolist())
-            joints_dict[base_name][0].append(i)
+        # if keypoint[2] > threshold:
+        joints_dict[base_name].append(keypoint.tolist())
+        # joints_dict[base_name][0].append(i)
 
 
 for filepath, dirnames, filenames in os.walk(root_path):
