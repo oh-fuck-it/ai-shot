@@ -3,10 +3,9 @@ import os
 import numpy as np
 import tensorflow as tf
 import tensorflow_hub as hub
-
-root_path = 'C:\\Users\\holk\\Documents\\Tencent Files\\1599840925\\FileRecv\\File'
+root = 'D:\\TempDemo\\unsplash\\UnsplashDownloader\\File'
+root_path = ['\\boy','\\girl','\\lady','\\man','\\Potrait']
 # root_path = 'C:\\Users\\holk\\Documents\\Tencent Files\\1599840925\\FileRecv\\file1'
-image_path = root_path
 threshold = 0.5
 joints = ['nose', 'l-eye', 'r-eye', 'left ear', 'right ear', 'left shoulder', 'right shoulder', 'left elbow',
           'right elbow', 'left wrist', 'right wrist', 'left hip', 'right hip', 'left knee', 'right knee',
@@ -35,12 +34,14 @@ def estimate(image_path):
         del joints_dict[base_name]
 
 
-for filepath, dir_names, filenames in os.walk(root_path):
-    for image_path in filenames:
-        if image_path != '.DS_Store':
-            path = os.path.join(filepath, image_path)
-            print("now get %s", path)
-            estimate(path)
+for walk_path in root_path:
+    walk_path = root + walk_path
+    for filepath, dir_names, filenames in os.walk(walk_path):
+        for  image_path in filenames:
+            if image_path != '.DS_Store':
+                path = os.path.join(filepath, image_path)
+                print("now get %s", path)
+                estimate(path)
 
 with open(filename, 'w') as file_obj:
     json.dump(joints_dict, file_obj)
