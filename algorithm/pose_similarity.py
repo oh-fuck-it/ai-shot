@@ -1,10 +1,7 @@
-<<<<<<< Updated upstream
-=======
 import time
 
 import tensorflow as tf
 import numpy as np
->>>>>>> Stashed changes
 import json
 
 import tensorflow as tf
@@ -17,6 +14,7 @@ with open(filename) as file_obj:
     pics = json.load(file_obj)
 for p in pics:
     pics[p] = tf.reshape(tf.convert_to_tensor(pics[p])[:, :2], [1, 34])
+
 
 def cosine_similarity(q, a):
     q = tf.convert_to_tensor(q)
@@ -50,11 +48,3 @@ def estimate_similarity_in_all_data(coordinate, dataset=pics):
             res[0] = pic
             res[1] = similarity
     return res
-<<<<<<< Updated upstream
-
-#
-# print(pics['cuStP_i-xPg.png'])
-# print(estimate_similarity_in_all_data(pics['cuStP_i-xPg.png']))
-# print(estimate_two_pic_similarity('02ada987-1550-11ec-8457-64bc580330d5.png','02ada987-1550-11ec-8457-64bc580330d5.png').)
-=======
->>>>>>> Stashed changes
