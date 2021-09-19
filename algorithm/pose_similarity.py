@@ -28,28 +28,20 @@ def estimate_two_pic_similarity(pic1_name, pic2_name):
     pic1_reshape = tf.reshape(coordinate1, [1, 34])
     pic2_reshape = tf.reshape(coordinate2, [1, 34])
     # print(pic2_reshape, pic1_reshape)
-    return tf.reduce_mean(cosine_similarity(pic1_reshape, pic2_reshape))
+    return [tf.reduce_mean(cosine_similarity(pic1_reshape, pic2_reshape)), score]
 
 
-def estimate_similarity_in_all_data(coordinate, data=pics):
+def estimate_similarity_in_all_data(coordinate, dataset=pics):
     res = [0, 0]
-    data = tf.convert_to_tensor(0)
-
-    # coordinate = tf.convert_to_tensor(pics[pic_name])[:, :2]
-    # score = tf.convert_to_tensor(pics[pic_name])[:, 2]
-    # pic_reshape = tf.reshape(coordinate, [1, 34])
     pic_reshape = tf.reshape(tf.convert_to_tensor(coordinate)[:, :2], [1, 34])
-    for pic in pics:
-        # if pic == pic_name:
-        #     continue
-        data_coordinate = tf.convert_to_tensor(pics[pic])[:, :2]
+    for pic in dataset:
+        data_coordinate = tf.convert_to_tensor(dataset[pic])[:, :2]
         data_reshape = tf.reshape(data_coordinate, [1, 34])
         similarity = cosine_similarity(pic_reshape, data_reshape)
         tf.reshape(similarity, [])
         if similarity > res[1]:
             res[0] = pic
             res[1] = similarity
-            data = data_reshape
     return res
 
 
