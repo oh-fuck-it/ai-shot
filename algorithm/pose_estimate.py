@@ -12,7 +12,7 @@ joints = ['nose', 'l-eye', 'r-eye', 'left ear', 'right ear', 'left shoulder', 'r
           'left ankle',
           'right ankle']
 joints_dict = {}
-filename = 'result.json'
+filename = '../result.json'
 model = hub.load("movenet_singlepose_thunder")
 
 
@@ -33,6 +33,7 @@ def estimate(image_path):
     if tf.reduce_sum(tf.convert_to_tensor(joints_dict[base_name])[:, 2]) < threshold:
         del joints_dict[base_name]
 
+
 def build_result():
     for walk_path in root_path:
         walk_path = root + walk_path
@@ -48,3 +49,4 @@ def build_result():
 
     with open(filename, 'w') as file_obj:
         json.dump(joints_dict, file_obj)
+# build_result()

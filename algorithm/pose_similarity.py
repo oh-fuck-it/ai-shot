@@ -4,7 +4,7 @@ import json
 from tensorflow.python.ops.numpy_ops import np_config
 
 np_config.enable_numpy_behavior()
-filename = 'result.json'
+filename = './result.json'
 with open(filename) as file_obj:
     pics = json.load(file_obj)
 
@@ -44,7 +44,7 @@ def estimate_similarity_in_all_data(coordinate, dataset=pics):
             res[1] = similarity
     return res
 
-
-print(pics['cuStP_i-xPg.png'])
-print(estimate_similarity_in_all_data(pics['cuStP_i-xPg.png']))
+#
+# print(pics['cuStP_i-xPg.png'])
+# print(estimate_similarity_in_all_data(pics['cuStP_i-xPg.png']))
 # print(estimate_two_pic_similarity('02ada987-1550-11ec-8457-64bc580330d5.png','02ada987-1550-11ec-8457-64bc580330d5.png').)
