@@ -31,28 +31,28 @@ def estimate_two_pic_similarity(pic1_name, pic2_name):
     return tf.reduce_mean(cosine_similarity(pic1_reshape, pic2_reshape))
 
 
-def estimate_similarity_in_all_data(pic_name, data=pics):
+def estimate_similarity_in_all_data(coordinate, data=pics):
     res = [0, 0]
     data = tf.convert_to_tensor(0)
 
-    coordinate = tf.convert_to_tensor(pics[pic_name])[:, :2]
-    score = tf.convert_to_tensor(pics[pic_name])[:, 2]
-    pic_reshape = tf.reshape(coordinate, [1, 34])
-
+    # coordinate = tf.convert_to_tensor(pics[pic_name])[:, :2]
+    # score = tf.convert_to_tensor(pics[pic_name])[:, 2]
+    # pic_reshape = tf.reshape(coordinate, [1, 34])
+    pic_reshape = tf.reshape(tf.convert_to_tensor(coordinate)[:, :2], [1, 34])
     for pic in pics:
-        if pic == pic_name:
-            continue
+        # if pic == pic_name:
+        #     continue
         data_coordinate = tf.convert_to_tensor(pics[pic])[:, :2]
         data_reshape = tf.reshape(data_coordinate, [1, 34])
-        # print(cosine_similarity(pic_reshape, data_reshape).numpy()[0])
         similarity = cosine_similarity(pic_reshape, data_reshape)
         tf.reshape(similarity, [])
-        # print(data)
         if similarity > res[1]:
             res[0] = pic
             res[1] = similarity
             data = data_reshape
     return res
 
-# print(estimate_similarity_in_all_data('cuStP_i-xPg.png'))
+
+print(pics['cuStP_i-xPg.png'])
+print(estimate_similarity_in_all_data(pics['cuStP_i-xPg.png']))
 # print(estimate_two_pic_similarity('02ada987-1550-11ec-8457-64bc580330d5.png','02ada987-1550-11ec-8457-64bc580330d5.png').)
