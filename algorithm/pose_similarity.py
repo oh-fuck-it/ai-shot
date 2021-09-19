@@ -55,5 +55,5 @@ def estimate_similarity_in_all_data(pic_name, data=pics):
     return res
 
 
-print(estimate_similarity_in_all_data('02ada987-1550-11ec-8457-64bc580330d5.png'))
+print(estimate_similarity_in_all_data('cuStP_i-xPg.png'))
 # print(estimate_two_pic_similarity('02ada987-1550-11ec-8457-64bc580330d5.png','02ada987-1550-11ec-8457-64bc580330d5.png').)

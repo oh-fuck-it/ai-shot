@@ -3,8 +3,9 @@ import os
 import numpy as np
 import tensorflow as tf
 import tensorflow_hub as hub
+
 root = 'D:\\TempDemo\\unsplash\\UnsplashDownloader\\File'
-root_path = ['\\boy','\\girl','\\lady','\\man','\\Potrait']
+root_path = ['\\boy', '\\girl', '\\lady', '\\man', '\\Potrait']
 # root_path = 'C:\\Users\\holk\\Documents\\Tencent Files\\1599840925\\FileRecv\\file1'
 threshold = 0.5
 joints = ['nose', 'l-eye', 'r-eye', 'left ear', 'right ear', 'left shoulder', 'right shoulder', 'left elbow',
@@ -18,7 +19,7 @@ model = hub.load("movenet_singlepose_thunder")
 
 def estimate(image_path):
     image = tf.io.read_file(image_path)
-    image = tf.compat.v1.image.decode_jpeg(image)
+    image = tf.image.decode_jpeg(image)
     image = tf.cast(tf.image.resize_with_pad(image, 256, 256), dtype=tf.int32)
     image = tf.expand_dims(image, axis=0)
     image = tf.cast(tf.image.resize_with_pad(image, 256, 256), dtype=tf.int32)
@@ -37,11 +38,14 @@ def estimate(image_path):
 for walk_path in root_path:
     walk_path = root + walk_path
     for filepath, dir_names, filenames in os.walk(walk_path):
-        for  image_path in filenames:
+        for image_path in filenames:
             if image_path != '.DS_Store':
                 path = os.path.join(filepath, image_path)
                 print("now get %s", path)
-                estimate(path)
+                try:
+                    estimate(path)
+                except:
+                    print('fail' + path)
 
 with open(filename, 'w') as file_obj:
     json.dump(joints_dict, file_obj)
