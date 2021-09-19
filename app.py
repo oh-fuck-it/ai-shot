@@ -15,9 +15,7 @@ root_path = 'D:\\TempDemo\\TempDemo\\ai-shot\\File\\'
 @app.route('/predict', methods=["GET", "POST"])
 def get_predict():
     tensor = json.loads(request.form.to_dict()['img'])
-    now = time.time()
     pic_name = estimate_similarity_in_all_data(tensor)[0]
-    print(time.time() - now)
     with open(root_path + pic_name, 'rb') as img_f:
         bytearray = io.BytesIO(img_f.read())
         bytearray = PILImgZIP.Compress_img().compress_img_PIL(bytearray, compress_rate=0.1)
