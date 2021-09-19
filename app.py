@@ -9,7 +9,7 @@ import PILImgZIP
 from algorithm.pose_similarity import estimate_similarity_in_all_data
 
 app = Flask(__name__)
-root_path = 'D:\\TempDemo\\unsplash\\UnsplashDownloader\\File\\'
+root_path = 'D:\\TempDemo\\TempDemo\\ai-shot\\File\\'
 
 
 @app.route('/predict', methods=["GET", "POST"])

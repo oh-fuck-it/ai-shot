@@ -8,7 +8,7 @@ import tensorflow as tf
 from tensorflow.python.ops.numpy_ops import np_config
 
 np_config.enable_numpy_behavior()
-filename = '../result.json'
+filename = './result.json'
 with open(filename) as file_obj:
     print(file_obj)
     pics = json.load(file_obj)
