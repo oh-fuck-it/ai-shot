@@ -1,4 +1,3 @@
-import base64
 import io
 import json
 import time
@@ -21,7 +20,7 @@ def get_predict():
     print(time.time() - now)
     with open(root_path + pic_name, 'rb') as img_f:
         bytearray = io.BytesIO(img_f.read())
-        bytearray = PILImgZIP.Compress_img().compress_img_PIL(bytearray,compress_rate=0.1)
+        bytearray = PILImgZIP.Compress_img().compress_img_PIL(bytearray, compress_rate=0.1)
         img_f.close()
         return send_file(
             bytearray,
@@ -29,6 +28,7 @@ def get_predict():
             as_attachment=True,
             attachment_filename=pic_name
         )
+
 
 if __name__ == '__main__':
     app.run()

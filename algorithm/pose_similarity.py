@@ -1,13 +1,13 @@
-import tensorflow as tf
-import numpy as np
 import json
+
+import tensorflow as tf
 from tensorflow.python.ops.numpy_ops import np_config
 
 np_config.enable_numpy_behavior()
-filename = './result.json'
+filename = '../result.json'
 with open(filename) as file_obj:
+    print(file_obj)
     pics = json.load(file_obj)
-
 
 def cosine_similarity(q, a):
     q = tf.convert_to_tensor(q)
