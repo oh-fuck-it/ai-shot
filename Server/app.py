@@ -17,7 +17,7 @@ def get_predict():
     pic_name = estimate_similarity_in_all_data(tensor)[0]
     with open(root_path + pic_name, 'rb') as img_f:
         bytearray = io.BytesIO(img_f.read())
-        bytearray = PILImgZIP.Compress_img().compress_img_PIL(bytearray, compress_rate=0.1)
+        bytearray = PILImgZIP.compress_img_PIL(bytearray, compress_rate=0.1)
         img_f.close()
         return send_file(
             bytearray,
