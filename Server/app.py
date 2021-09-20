@@ -5,7 +5,7 @@ from flask import Flask, send_file
 from flask import request
 
 import PILImgZIP
-from algorithm.pose_similarity import estimate_similarity_in_all_data
+from algorithm.PoseEstimate.pose_similarity import estimate_similarity_in_all_data
 
 app = Flask(__name__)
 root_path = '../File\\'
