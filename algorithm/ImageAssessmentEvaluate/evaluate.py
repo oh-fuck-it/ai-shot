@@ -1,8 +1,5 @@
 import tensorflow as tf
-import numpy as np
-from utils.score_utils import mean_score, std_score
-from keras.preprocessing.image import load_img, img_to_array
-from keras.applications.mobilenet import preprocess_input
+
 
 
 # resize_image = True
@@ -13,6 +10,7 @@ from keras.applications.mobilenet import preprocess_input
 # x = img_to_array(img)
 # x = np.expand_dims(x, axis=0)
 # x = preprocess_input(x)
+from algorithm.ImageAssessmentEvaluate.utils.score_utils import mean_score, std_score
 
 
 def load_x_data(x: []):
