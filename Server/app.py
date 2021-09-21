@@ -5,6 +5,7 @@ from flask import Flask, send_file
 from flask import request
 
 import PILImgZIP
+from algorithm.ImageAssessmentEvaluate.evaluate import load_x_data
 from algorithm.PoseEstimate.pose_similarity import estimate_similarity_in_all_data
 
 app = Flask(__name__)
@@ -25,6 +26,16 @@ def get_predict():
             as_attachment=True,
             attachment_filename=pic_name
         )
+
+
+@app.route('/marker', methods=['POST'])
+def marker():
+    x = json.loads(request.form.to_dict()['tensor'])
+    mean, std = load_x_data(x)
+    return {
+        "mean": mean,
+        "std": std
+    }
 
 
 if __name__ == '__main__':
