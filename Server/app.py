@@ -43,7 +43,7 @@ def marker():
 
 @app.route('/postImg', methods=['POST'])
 def postImg():
-    upload_file = request.files['file'].body
+    upload_file = request.files['file'].read()
     byte_stream = io.BytesIO(upload_file)
     im2 = Image.open(byte_stream)
     mean, std = load_x_data(im2)
