@@ -1,6 +1,9 @@
 import io
 import json
 
+import cv2
+import numpy as np
+from PIL import Image
 from flask import Flask, send_file
 from flask import request
 
@@ -32,6 +35,18 @@ def get_predict():
 def marker():
     x = json.loads(request.form.to_dict()['tensor'])
     mean, std = load_x_data(x)
+    return {
+        "mean": mean,
+        "std": std
+    }
+
+
+@app.route('/postImg', methods=['POST'])
+def postImg():
+    upload_file = request.files['file'].body
+    byte_stream = io.BytesIO(upload_file)
+    im2 = Image.open(byte_stream)
+    mean, std = load_x_data(im2)
     return {
         "mean": mean,
         "std": std
