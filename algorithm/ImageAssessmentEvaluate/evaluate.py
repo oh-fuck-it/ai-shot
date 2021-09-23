@@ -17,6 +17,7 @@ from algorithm.ImageAssessmentEvaluate.utils.score_utils import mean_score, std_
 # x = np.expand_dims(x, axis=0)
 # x = preprocess_input(x)
 interpreter = tf.lite.Interpreter(model_path="../algorithm/ImageAssessmentEvaluate/model/mobilenet_weights.tflite")
+interpreter.allocate_tensors()
 
 
 # interpreter = tf.lite.Interpreter(model_path="./model/mobilenet_weights.tflite")

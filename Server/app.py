@@ -6,6 +6,7 @@ import numpy as np
 from PIL import Image
 from flask import Flask, send_file
 from flask import request
+from keras.applications.mobilenet import preprocess_input
 
 import PILImgZIP
 from algorithm.ImageAssessmentEvaluate.evaluate import load_x_data
@@ -45,12 +46,16 @@ def marker():
 def postImg():
     upload_file = request.files['file'].read()
     byte_stream = io.BytesIO(upload_file)
-    im2 = Image.open(byte_stream)
-    mean, std = load_x_data(im2)
-    return {
+    im2 = Image.open(byte_stream).resize(size=(480, 640))
+    img = np.asarray(im2, dtype=np.float32)
+    x = np.expand_dims(img, axis=0)
+    x = preprocess_input(x)
+    mean, std = load_x_data(x)
+    print(mean, std)
+    return json.dumps({
         "mean": mean,
         "std": std
-    }
+    })
 
 
 if __name__ == '__main__':
