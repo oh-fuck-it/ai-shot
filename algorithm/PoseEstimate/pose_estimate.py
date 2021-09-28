@@ -27,7 +27,6 @@ def estimate(image_path):
     key_points = outputs['output_0'].numpy()[0][0]
     base_name = os.path.basename(image_path)
     joints_dict[base_name] = []
-    # joints_dict[base_name].append([])
     for i, keypoint in enumerate(key_points):
         joints_dict[base_name].append(keypoint.tolist())
     if tf.reduce_sum(tf.convert_to_tensor(joints_dict[base_name])[:, 2]) < threshold:
@@ -49,4 +48,4 @@ def build_result():
 
     with open(filename, 'w') as file_obj:
         json.dump(joints_dict, file_obj)
-# build_result()
+
