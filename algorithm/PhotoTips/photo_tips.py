@@ -21,29 +21,37 @@ def estimate(image_path):
 
 
 class Tips:
-    def __call__(self, reference_joints, pred_joints, threshold):
+    def __call__(self, reference_joints, threshold):
+        self.pred_coordinates = None
+        self.pred_score = None
         self.threshold = threshold
         self.reference_score = reference_joints[:, 2]
-        self.pred_score = pred_joints[:, 2]
         self.reference_coordinates = reference_joints[:, :2]
-        self.pred_coordinates = pred_joints[:, :2]
 
-    def __init__(self, reference_joints, pred_joints, threshold):
+    def __init__(self, reference_joints, threshold):
+        self.pred_coordinates = None
+        self.pred_score = None
         self.threshold = threshold
         self.reference_score = reference_joints[:, 2]
-        self.pred_score = pred_joints[:, 2]
         self.reference_coordinates = reference_joints[:, :2]
-        self.pred_coordinates = pred_joints[:, :2]
 
-    def diff_of_coordinate(self):
+    def __tips_of_coordinate__(self):
         rc = self.reference_coordinates
         pc = self.pred_coordinates
-        res = []
+        res = {}
+        r = []
         for i in range(17):
-            t = pc[i] - rc[i]
-            # if t[0]
+            if abs(self.pred_score[i]) > 0.3 and abs(self.reference_score[i]) > 0.3:
+                t = pc[i] - rc[i]
+                res[abs(t[1])] = f'请将{joints[i]}向{"左" if t[1] > 0 else "右"}移'
+                res[abs(t[0])] = f'请将{joints[i]}向{"上" if t[0] > 0 else "下"}移'
+        tmp = sorted(res, reverse=True)
+        for i in tmp:
+            if i > 0.15:
+                r.append(res[i])
+        return r
 
-    def tips_of_score(self):
+    def __tips_of_score__(self):
         thd = self.threshold
         rs = self.reference_score
         ps = self.pred_score
@@ -59,12 +67,16 @@ class Tips:
             res.append(tmp[k])
         return res
 
+    def get_tips(self, pred_joints):
+        self.pred_coordinates = pred_joints[:, :2]
+        self.pred_score = pred_joints[:, 2]
+        return [self.__tips_of_score__(), self.__tips_of_coordinate__()]
 
 ref = estimate(
     'C:\\Users\\holk\\Documents\\Tencent Files\\1599840925\\FileRecv\\File\\0a12508c-1550-11ec-8261-64bc580330d5.png')
 pred = estimate(
     'C:\\Users\\holk\\Documents\\Tencent Files\\1599840925\\FileRecv\\File\\0b3d89bb-1550-11ec-838d-64bc580330d5.png')
 
-tips = Tips(ref, pred, 0.3)
-print(tips.diff_of_coordinate())
-print(tips.tips_of_score())
+tips = Tips(ref, 0.3)
+
+print(tips.get_tips(pred))
