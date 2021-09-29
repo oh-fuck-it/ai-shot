@@ -1,3 +1,4 @@
+import json
 import os
 import tensorflow as tf
 import numpy as np
@@ -37,34 +38,33 @@ class Tips:
     def diff_of_coordinate(self):
         rc = self.reference_coordinates
         pc = self.pred_coordinates
-        d_values = []
         res = []
         for i in range(17):
-            d_values.append(pc[i] - rc[i])
-            # res.append()
+            t = pc[i] - rc[i]
+            # if t[0]
 
-    def diff_of_score(self):
+    def tips_of_score(self):
         thd = self.threshold
         rs = self.reference_score
         ps = self.pred_score
+        tmp = {}
         res = []
-        d_values = []
-        d_list = []
         for i in range(17):
             rs_s = True if rs[i] > thd else False
             ps_s = True if ps[i] > thd else False
-            d_list.append(rs_s and ps_s)
-            d_values.append(rs[i] - ps[i])
-            if not d_list[i]:
-                res.append(f'请{"露出" if rs[i] == True else "隐藏"}{joints[i]}')
+            if rs_s != ps_s:
+                diff = rs[i] - ps[i]
+                tmp[diff] = f'请{"露出" if rs_s else "隐藏"}{joints[i]}'
+        for k in sorted(tmp, reverse=True):
+            res.append(tmp[k])
         return res
 
 
-ref = estimate('C:\\Users\\holk\\Documents\\Tencent Files\\1599840925\\FileRecv\\File\\0a256522-1550-11ec-ab0e'
-               '-64bc580330d5.png')
-pred = estimate('C:\\Users\\holk\\Documents\\Tencent Files\\1599840925\\FileRecv\\File\\0a12508c-1550-11ec-8261'
-                '-64bc580330d5.png')
+ref = estimate(
+    'C:\\Users\\holk\\Documents\\Tencent Files\\1599840925\\FileRecv\\File\\0a12508c-1550-11ec-8261-64bc580330d5.png')
+pred = estimate(
+    'C:\\Users\\holk\\Documents\\Tencent Files\\1599840925\\FileRecv\\File\\0b3d89bb-1550-11ec-838d-64bc580330d5.png')
 
-tips = Tips(ref, pred, 0.4)
-# print(tips.diff_of_coordinate())
-print(tips.diff_of_score())
+tips = Tips(ref, pred, 0.3)
+print(tips.diff_of_coordinate())
+print(tips.tips_of_score())
