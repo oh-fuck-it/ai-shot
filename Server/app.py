@@ -1,5 +1,7 @@
 import io
 import json
+import os
+import random
 
 import cv2
 import numpy as np
@@ -14,6 +16,18 @@ from algorithm.PoseEstimate.pose_similarity import estimate_similarity_in_all_da
 
 app = Flask(__name__)
 root_path = '../File\\'
+ip = '127.0.0.1/'
+
+
+@app.route('/getPhoto', methods=["GET", "POST"])
+def getPhoto():
+    dirs = os.listdir(root_path)
+    photos = [ip+dirs[random.randint(0, len(dirs))] for i in range(0, 15)]
+    return json.dumps({
+        "code": 200,
+        "msg": "success",
+        "photos": photos
+    })
 
 
 @app.route('/predict', methods=["GET", "POST"])
@@ -53,10 +67,16 @@ def postImg():
     mean, std = load_x_data(x)
     print(mean, std)
     return json.dumps({
-        "mean": mean,
-        "std": std
+        "mean": {
+            'data': mean,
+            'description': "评分标准值"
+        },
+        "std": {
+            'data': std,
+            'description': "标准差"
+        }
     })
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(host="0.0.0.0", port="5000")
