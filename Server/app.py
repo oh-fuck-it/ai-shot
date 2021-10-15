@@ -22,7 +22,7 @@ ip = '127.0.0.1/'
 @app.route('/getPhoto', methods=["GET", "POST"])
 def getPhoto():
     dirs = os.listdir(root_path)
-    photos = [ip+dirs[random.randint(0, len(dirs))] for i in range(0, 15)]
+    photos = [ip + dirs[random.randint(0, len(dirs))] for i in range(0, 15)]
     return json.dumps({
         "code": 200,
         "msg": "success",
@@ -46,27 +46,28 @@ def get_predict():
         )
 
 
-@app.route('/marker', methods=['POST'])
-def marker():
-    x = json.loads(request.form.to_dict()['tensor'])
-    mean, std = load_x_data(x)
-    return {
-        "mean": mean,
-        "std": std
-    }
-
-
-@app.route('/postImg', methods=['POST'])
-def postImg():
-    upload_file = request.files['file'].read()
-    byte_stream = io.BytesIO(upload_file)
+def file_2_bytes(file):
+    byte_stream = io.BytesIO(file)
     im2 = Image.open(byte_stream).resize(size=(480, 640))
     img = np.asarray(im2, dtype=np.float32)
     x = np.expand_dims(img, axis=0)
     x = preprocess_input(x)
+    return x
+
+
+@app.route("/getTips", methods=["GET", "POST"])
+def getTips():
+    upload_file = request.files['file'].read()
+    x = file_2_bytes(upload_file)
+
+
+@app.route('/markerImg', methods=['POST'])
+def postImg():
+    upload_file = request.files['file'].read()
+    x = file_2_bytes(upload_file)
     mean, std = load_x_data(x)
     print(mean, std)
-    return json.dumps({
+    return {
         "mean": {
             'data': mean,
             'description': "评分标准值"
@@ -75,7 +76,7 @@ def postImg():
             'data': std,
             'description': "标准差"
         }
-    })
+    }
 
 
 if __name__ == '__main__':

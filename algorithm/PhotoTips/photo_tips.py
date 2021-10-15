@@ -4,11 +4,7 @@ import tensorflow as tf
 import numpy as np
 import tensorflow_hub as hub
 
-
 joints = ['鼻子', '左眼', '右眼', '左耳', '右耳', '左肩', '右肩', '左肘', '右肘', '左腕', '右腕', '左腰', '右腰', '左膝', '右膝', '左脚', '右脚']
-
-
-
 
 
 class Tips:
@@ -77,6 +73,7 @@ def test():
         outputs = net(image)
         key_points = outputs['output_0'].numpy()[0][0]
         return key_points
+
     ref = estimate(
         'C:\\Users\\holk\\Documents\\Tencent Files\\1599840925\\FileRecv\\File\\0a12508c-1550-11ec-8261-64bc580330d5.png')
     pred = estimate(
@@ -85,4 +82,5 @@ def test():
     tips = Tips(ref, 0.3)
 
     print(tips.get_tips(pred))
+
 # test()
