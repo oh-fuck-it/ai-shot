@@ -1,14 +1,9 @@
-import json
-
-import numpy as np
 import tensorflow as tf
 
 resize_image = True
-img_path = 'D:\\TempDemo\\TempDemo\\ai-shot\\File\\0apwACX-W2Y.png'
+img_path = '/File/0apwACX-W2Y.png'
 #
 target_size = (640, 480) if resize_image else None
-from keras.applications.densenet import preprocess_input
-from keras_preprocessing.image import load_img, img_to_array
 
 from algorithm.ImageAssessmentEvaluate.utils.score_utils import mean_score, std_score
 
@@ -16,7 +11,7 @@ from algorithm.ImageAssessmentEvaluate.utils.score_utils import mean_score, std_
 # x = img_to_array(img)
 # x = np.expand_dims(x, axis=0)
 # x = preprocess_input(x)
-interpreter = tf.lite.Interpreter(model_path="../algorithm/ImageAssessmentEvaluate/model/mobilenet_weights.tflite")
+interpreter = tf.lite.Interpreter(model_path="./algorithm/ImageAssessmentEvaluate/model/mobilenet_weights.tflite")
 interpreter.allocate_tensors()
 
 
