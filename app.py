@@ -14,8 +14,8 @@ from algorithm.ImageAssessmentEvaluate.evaluate import load_x_data
 from algorithm.PoseEstimate.pose_similarity import estimate_similarity_in_all_data
 
 app = Flask(__name__)
-root_path = 'File\\'
-ip = '127.0.0.1/'
+root_path = './File/'
+ip = '0.0.0.0/'
 
 
 @app.route('/getPhoto', methods=["GET", "POST"])
