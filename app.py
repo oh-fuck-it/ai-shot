@@ -11,6 +11,7 @@ from keras.applications.mobilenet import preprocess_input
 
 from Server import PILImgZIP
 from algorithm.ImageAssessmentEvaluate.evaluate import load_x_data
+from algorithm.PhotoTips.photo_tips import Tips
 from algorithm.PoseEstimate.pose_similarity import estimate_similarity_in_all_data
 
 app = Flask(__name__)
@@ -54,12 +55,6 @@ def file_2_bytes(file):
     return x
 
 
-@app.route("/getTips", methods=["GET", "POST"])
-def getTips():
-    upload_file = request.files['file'].read()
-    x = file_2_bytes(upload_file)
-
-
 @app.route('/markerImg', methods=['POST'])
 def postImg():
     upload_file = request.files['file'].read()
@@ -75,6 +70,37 @@ def postImg():
             'data': std,
             'description': "标准差"
         }
+    }
+
+
+temTips: Tips = None
+
+
+@app.route("/setTips", methods=['POST'])
+def setTips():
+    global temTips
+    fileName = request.form.to_dict()['img']
+    temTips = Tips(fileName=fileName)
+    return {
+        "code": 200,
+        "status": "OK"
+    }
+
+
+@app.route("/getTips", methods=['GET'])
+def getTips():
+    global temTips
+    if temTips is not None:
+        pred_joints =json.loads(request.form.to_dict()['pred_joints'])
+        pred_joints = np.array(pred_joints)
+        return {
+            "code": 200,
+            "status": "OK",
+            "data": temTips.get_tips(pred_joints=pred_joints)
+        }
+    return {
+        "code": 403,
+        "status": "failed,tips not found"
     }
 
 

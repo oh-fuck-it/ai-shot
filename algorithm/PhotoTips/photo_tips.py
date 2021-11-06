@@ -3,6 +3,7 @@ import os
 import tensorflow as tf
 import numpy as np
 import tensorflow_hub as hub
+import config
 
 joints = ['鼻子', '左眼', '右眼', '左耳', '右耳', '左肩', '右肩', '左肘', '右肘', '左腕', '右腕', '左腰', '右腰', '左膝', '右膝', '左脚', '右脚']
 
@@ -15,7 +16,8 @@ class Tips:
         self.reference_score = reference_joints[:, 2]
         self.reference_coordinates = reference_joints[:, :2]
 
-    def __init__(self, reference_joints, threshold):
+    def __init__(self, fileName: str, threshold=0.3):  # 1，3，17矩阵
+        reference_joints = np.array(config.result[fileName])
         self.pred_coordinates = None
         self.pred_score = None
         self.threshold = threshold
@@ -57,7 +59,7 @@ class Tips:
     def get_tips(self, pred_joints):
         self.pred_coordinates = pred_joints[:, :2]
         self.pred_score = pred_joints[:, 2]
-        return [self.__tips_of_score__(), self.__tips_of_coordinate__()]
+        return [self.__tips_of_score__()[0], self.__tips_of_coordinate__()[0]]
 
 
 def test():
