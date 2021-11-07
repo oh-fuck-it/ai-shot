@@ -87,11 +87,11 @@ def setTips():
     }
 
 
-@app.route("/getTips", methods=['GET'])
+@app.route("/getTips", methods=['GET', 'POST'])
 def getTips():
     global temTips
     if temTips is not None:
-        pred_joints =json.loads(request.form.to_dict()['pred_joints'])
+        pred_joints = json.loads(request.form.to_dict()['pred_joints'])
         pred_joints = np.array(pred_joints)
         return {
             "code": 200,

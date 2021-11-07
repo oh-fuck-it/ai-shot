@@ -79,7 +79,8 @@ def test():
     ref = estimate(
         'C:\\Users\\holk\\Documents\\Tencent Files\\1599840925\\FileRecv\\File\\0a12508c-1550-11ec-8261-64bc580330d5.png')
     pred = estimate(
-        'C:\\Users\\holk\\Documents\\Tencent Files\\1599840925\\FileRecv\\File\\0b3d89bb-1550-11ec-838d-64bc580330d5.png')
+        'C:\\Users\\holk\\Documents\\Tencent Files\\1599840925\\FileRecv\\File\\0b3d89bb-1550-11ec-838d-64bc580330d5'
+        '.png')
 
     tips = Tips(ref, 0.3)
 
