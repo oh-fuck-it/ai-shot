@@ -93,6 +93,7 @@ def getTips():
     if temTips is not None:
         pred_joints = json.loads(request.form.to_dict()['pred_joints'])
         pred_joints = np.array(pred_joints)
+        print(pred_joints)
         return {
             "code": 200,
             "status": "OK",
